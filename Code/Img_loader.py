@@ -7,8 +7,7 @@ Created on Tue Mar 10 15:04:48 2020
 
 # This code and file is heavily inspired by
 # https://www.kaggle.com/drgfreeman/principal-component-analysis-visualization?fbclid=IwAR02OvRRJqSRjIGupQqZ7nYrJ3yv5VEdkWT4pgPF5sGTjcEEwJBW5PEozOs
-
-from os import listdir
+import os
 #from PIL import Image as PImage
 from matplotlib.image import imread
 import numpy as np
@@ -20,7 +19,10 @@ import matplotlib.pyplot as plt
 # https://stackoverflow.com/questions/36774431/how-to-load-images-from-a-directory-on-the-computer-in-python?fbclid=IwAR2KJY6YPoo20MI4VUsB6oajFXiRf0twNR73BBIYGsvG1mpGUZQgwo0pf_Q
 
 # Paths
-path_working_dir = "C:/Users/flole/Desktop/dev/MAL/itmal/Own_Prj/rps-cv-images/"
+# Change if the project is another folder
+desktop_path = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop') 
+path_working_dir = desktop_path + "/dev/ITMAL_PRJ/rockpaperscissors/"
+#path_working_dir = "C:/Users/flole/Desktop/dev/ITMAL_PRJ/rockpaperscissors\"
 path_paper = path_working_dir + "paper/"
 path_rock = path_working_dir + "rock/"
 path_scissors = path_working_dir + "scissors/"
@@ -29,12 +31,11 @@ path_scissors = path_working_dir + "scissors/"
 def loadImages(path):
     # return array of images
 
-    imagesList = listdir(path)
+    imagesList = os.listdir(path)
     loadedImages = []
     for image in imagesList:
-        #img = PImage.open(path + image)
-        img = imread(path + image)
-        #img = np.ravel(img)
+        img = imread(os.path.join(path, image))
+        #img = imread(path + image)
         loadedImages.append(img)
 
     return loadedImages
@@ -104,7 +105,7 @@ reshaped_imgs_pca = pca.fit(reshaped_imgs)
 showPCAExplainedVar()
 
 #%%
-pca = PCA(n_components=75)
+pca = PCA(n_components=200)
 reshaped_imgs_pca = pca.fit(reshaped_imgs)
 
 #%%
