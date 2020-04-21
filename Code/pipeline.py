@@ -65,9 +65,14 @@ reshaped_imgs = reshapeImgs(imgs)
 # y array to define the different options
 # rock = 0, paper = 1, scissors = 2
 def generateYArray():
+    # Rock
     all_imgs = np.zeros(len(imgs))
-    all_imgs[len(rock_imgs):len(paper_imgs)] = 1
-    all_imgs[len(paper_imgs):] = 2
+    # paper
+    all_imgs[len(rock_imgs):len(rock_imgs) + len(paper_imgs)] = 1
+    # scissors
+    all_imgs[len(rock_imgs) + len(paper_imgs):] = 2
+    
+    all_imgs = list(all_imgs)
     
     return all_imgs
 
@@ -160,3 +165,44 @@ show_img_pcs(725)
 show_img_pcs(726)
 #Scissors
 show_img_pcs(2000)
+
+#%%
+# Shuffling the data
+import random
+random.seed(42)
+
+# Copy the datasets, otherwise the actual datasets are going to be shuffled
+shuffled_imgs = reshaped_imgs.copy()
+shuffled_y = y.copy()
+
+# Zip the datasets to be able to shuffle them in the same order
+c = list(zip(reshaped_imgs, y))
+
+#%%
+# Shuffle the datasets, so that they match in order
+random.shuffle(c)
+
+#%%
+# Get the shuffled lists
+shuffled_imgs, shuffled_y = zip(*c)
+shuffled_imgs = list(shuffled_imgs)
+shuffled_y = list(shuffled_y) 
+
+#%%
+# Test if it works
+index = 555
+plt.imshow(shuffled_imgs[index].reshape(200, 300), cmap="gray");
+print(shuffled_y[index])
+
+#%%
+# Split data into training- and test sets
+
+# Training
+imgs_training = shuffled_imgs[:500]
+y_training = shuffled_y[:500]
+# Test
+imgs_test = shuffled_imgs[500:]
+y_test = shuffled_y[500:]
+#%%
+plt.imshow(imgs_test[index].reshape(200, 300), cmap="gray");
+print(y_test[index])
