@@ -172,11 +172,11 @@ import random
 random.seed(42)
 
 # Copy the datasets, otherwise the actual datasets are going to be shuffled
-shuffled_imgs = reshaped_imgs.copy()
+shuffled_imgs = inv_imgs_from_pca.copy()
 shuffled_y = y.copy()
 
 # Zip the datasets to be able to shuffle them in the same order
-c = list(zip(reshaped_imgs, y))
+c = list(zip(shuffled_imgs, shuffled_y))
 
 #%%
 # Shuffle the datasets, so that they match in order
