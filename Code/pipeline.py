@@ -27,6 +27,14 @@ path_paper = path_working_dir + "paper/"
 path_rock = path_working_dir + "rock/"
 path_scissors = path_working_dir + "scissors/"
 
+#%% Jannik path variables
+desktop_path = os.path.join(os.path.join(os.path.expanduser('~')))
+path_working_dir = desktop_path + "\\ITMAL_PRJ\\rockpaperscissors\\"
+path_paper = path_working_dir + "paper\\"
+path_rock = path_working_dir + "rock\\"
+path_scissors = path_working_dir + "scissors\\"
+
+#%%
 
 def loadImages(path):
     # return array of images
@@ -34,10 +42,10 @@ def loadImages(path):
     imagesList = os.listdir(path)
     loadedImages = []
     for image in imagesList:
-        img = imread(os.path.join(path, image))
-        #img = imread(path + image)
+        #img = imread(os.path.join(path, image))
+        img = imread(path + image)
         loadedImages.append(img)
-
+        
     return loadedImages
 
 rock_imgs = loadImages(path_rock)
@@ -45,6 +53,10 @@ paper_imgs = loadImages(path_paper)
 scissors_imgs = loadImages(path_scissors)
 
 imgs = rock_imgs + paper_imgs + scissors_imgs
+
+#%%
+# Testing and showing images
+plt.imshow(imgs[1438])
 
 #%%
 # reshape images to not include the rgb parameter (3)
@@ -77,14 +89,10 @@ def generateYArray():
     return all_imgs
 
 y = generateYArray()
-#%%
-# Testing and showing images
-plt.imshow(imgs[1438])
 
 #%%
 from sklearn.decomposition import PCA
 
-#%%
 def showPCAExplainedVar():
     plt.figure(figsize=(12, 4))
     plt.subplot(1, 2, 1)
@@ -172,7 +180,7 @@ import random
 random.seed(42)
 
 # Copy the datasets, otherwise the actual datasets are going to be shuffled
-shuffled_imgs = inv_imgs_from_pca.copy()
+shuffled_imgs = imgs_pca.copy()
 shuffled_y = y.copy()
 
 # Zip the datasets to be able to shuffle them in the same order
@@ -198,11 +206,42 @@ print(shuffled_y[index])
 # Split data into training- and test sets
 
 # Training
-imgs_training = shuffled_imgs[:500]
+X_imgs_training = shuffled_imgs[:500]
 y_training = shuffled_y[:500]
 # Test
-imgs_test = shuffled_imgs[500:]
+X_imgs_test = shuffled_imgs[500:]
 y_test = shuffled_y[500:]
 #%%
-plt.imshow(imgs_test[index].reshape(200, 300), cmap="gray");
+plt.imshow(X_imgs_test[index].reshape(200, 300), cmap="gray");
 print(y_test[index])
+
+#%%
+# Running The LinearSVC model
+
+from sklearn.svm import LinearSVC
+clf = LinearSVC(random_state=0, max_iter=10000)
+clf.fit(X_imgs_training, y_training)
+y_pred = clf.predict(X_imgs_test)
+
+from sklearn.metrics import accuracy_score
+print(f"Accuracy Score: {accuracy_score(y_test, y_pred)}")
+
+#%%
+
+from sklearn.neighbors import KNeighborsClassifier
+neigh = KNeighborsClassifier(n_neighbors=3)
+neigh.fit(X_imgs_training, y_training)
+y_pred = clf.predict(X_imgs_test)
+
+from sklearn.metrics import accuracy_score
+print(f"Accuracy Score: {accuracy_score(y_test, y_pred)}")
+
+
+#%%
+from sklearn.svm import SVC
+clf = SVC(gamma='auto')
+clf.fit(X_imgs_training, y_training)
+y_pred = clf.predict(X_imgs_test)
+
+from sklearn.metrics import accuracy_score
+print(f"Accuracy Score: {accuracy_score(y_test, y_pred)}")
