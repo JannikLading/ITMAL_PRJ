@@ -397,7 +397,7 @@ t = time()-start
 
 # Report result
 b0, m0= FullReport(svc_grid_tuned , X_imgs_test, y_test, t)
-#%% Report functions
+#%% Report functions (reference: MAL Lesson 9 gridsearch assignment)
 currmode="N/A" # GLOBAL var!
 
 def SearchReport(model): 
