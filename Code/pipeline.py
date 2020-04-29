@@ -230,35 +230,27 @@ y_test = shuffled_y[500:]
 #print(y_test[index])
 
 #%%
-# Running The LinearSVC model
-
+# Quick test of the 3 algorithms
 from sklearn.svm import LinearSVC
+from sklearn.metrics import f1_score
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+
+
 clf = LinearSVC(random_state=0, max_iter=10000)
 clf.fit(X_imgs_training, y_training)
 y_pred = clf.predict(X_imgs_test)
+print(f"LinearSVC F1 Score: {f1_score(y_test, y_pred, average='micro')}")
 
-from sklearn.metrics import accuracy_score
-print(f"Accuracy Score: {accuracy_score(y_test, y_pred)}")
-
-#%%
-
-from sklearn.neighbors import KNeighborsClassifier
 neigh = KNeighborsClassifier(n_neighbors=3)
 neigh.fit(X_imgs_training, y_training)
 y_pred = clf.predict(X_imgs_test)
+print(f"KNeighbors F1 Score: {f1_score(y_test, y_pred, average='micro')}")
 
-from sklearn.metrics import accuracy_score
-print(f"Accuracy Score: {accuracy_score(y_test, y_pred)}")
-
-
-#%%
-from sklearn.svm import SVC
 clf = SVC(gamma='auto')
 clf.fit(X_imgs_training, y_training)
 y_pred = clf.predict(X_imgs_test)
-
-from sklearn.metrics import accuracy_score
-print(f"Accuracy Score: {accuracy_score(y_test, y_pred)}")
+print(f"SVC F1 Score: {f1_score(y_test, y_pred, average='micro')}")
 
 #%% Best model selection and hyperparameter tuning
 from time import time
