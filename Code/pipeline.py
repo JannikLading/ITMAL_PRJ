@@ -220,11 +220,11 @@ index = 555
 # Split data into training- and test sets
 
 # Training
-X_imgs_training = shuffled_imgs[:500]
-y_training = shuffled_y[:500]
+X_imgs_training = shuffled_imgs[500:]
+y_training = shuffled_y[500:]
 # Test
-X_imgs_test = shuffled_imgs[500:]
-y_test = shuffled_y[500:]
+X_imgs_test = shuffled_imgs[:500]
+y_test = shuffled_y[:500]
 #%%
 #plt.imshow(X_imgs_test[index].reshape(200, 300), cmap="gray");
 #print(y_test[index])
