@@ -237,20 +237,20 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 
 
-clf = LinearSVC(random_state=0, max_iter=10000)
-clf.fit(X_imgs_training, y_training)
-y_pred = clf.predict(X_imgs_test)
-print(f"LinearSVC F1 Score: {f1_score(y_test, y_pred, average='micro')}")
+linearSVC = LinearSVC(random_state=0, max_iter=10000)
+linearSVC.fit(X_imgs_training, y_training)
+linsvc_y_pred = linearSVC.predict(X_imgs_test)
+print(f"LinearSVC F1 Score: {f1_score(y_test, linsvc_y_pred, average='micro')}")
 
 neigh = KNeighborsClassifier(n_neighbors=3)
 neigh.fit(X_imgs_training, y_training)
-y_pred = clf.predict(X_imgs_test)
-print(f"KNeighbors F1 Score: {f1_score(y_test, y_pred, average='micro')}")
+neigh_y_pred = neigh.predict(X_imgs_test)
+print(f"KNeighbors F1 Score: {f1_score(y_test, neigh_y_pred , average='micro')}")
 
-clf = SVC(gamma='auto')
-clf.fit(X_imgs_training, y_training)
-y_pred = clf.predict(X_imgs_test)
-print(f"SVC F1 Score: {f1_score(y_test, y_pred, average='micro')}")
+svc = SVC(gamma='auto')
+svc.fit(X_imgs_training, y_training)
+svc_y_pred = svc.predict(X_imgs_test)
+print(f"SVC F1 Score: {f1_score(y_test, svc_y_pred, average='micro')}")
 
 #%% Best model selection and hyperparameter tuning
 from time import time
