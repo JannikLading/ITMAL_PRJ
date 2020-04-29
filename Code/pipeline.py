@@ -40,6 +40,13 @@ path_working_dir = "E:" + "/dev/ITMAL_PRJ/rockpaperscissors/"
 path_paper = path_working_dir + "paper/"
 path_rock = path_working_dir + "rock/"
 path_scissors = path_working_dir + "scissors/"
+#%% General purpose, should work on all
+path_working_dir = os.path.dirname(os.path.realpath(__file__))
+path_paper = path_working_dir + "\\..\\rockpaperscissors\\paper\\"
+path_rock = path_working_dir + "\\..\\rockpaperscissors\\rock\\"
+path_scissors = path_working_dir + "\\..\\rockpaperscissors\\scissors\\"
+
+
 #%%
 
 def loadImages(path):
@@ -206,8 +213,8 @@ shuffled_y = list(shuffled_y)
 #%%
 # Test if it works. Not the same shape anymore, the data is compressed
 index = 555
-plt.imshow(shuffled_imgs[index].reshape(200, 300), cmap="gray");
-print(shuffled_y[index])
+#plt.imshow(shuffled_imgs[index].reshape(200, 300), cmap="gray");
+#print(shuffled_y[index])
 
 #%%
 # Split data into training- and test sets
@@ -219,8 +226,8 @@ y_training = shuffled_y[:500]
 X_imgs_test = shuffled_imgs[500:]
 y_test = shuffled_y[500:]
 #%%
-plt.imshow(X_imgs_test[index].reshape(200, 300), cmap="gray");
-print(y_test[index])
+#plt.imshow(X_imgs_test[index].reshape(200, 300), cmap="gray");
+#print(y_test[index])
 
 #%%
 # Running The LinearSVC model
