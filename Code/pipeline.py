@@ -48,6 +48,22 @@ path_scissors = path_working_dir + "\\..\\rockpaperscissors\\scissors\\"
 
 
 #%%
+import cv2
+
+def removeGreenScreen(image_path):
+    img = cv2.imread(image_path)
+    
+    image_copy = np.copy(img)
+
+    lower_green = np.array([0, 50, 0])     ##[R value, G value, B value]
+    upper_green = np.array([100, 255, 100])
+
+    mask = cv2.inRange(image_copy, lower_green, upper_green)
+
+    masked_image = np.copy(image_copy)
+    masked_image[mask != 0] = [0, 0, 0]
+    masked_image = cv2.cvtColor(masked_image, cv2.COLOR_BGR2RGB)
+    return masked_image
 
 def loadImages(path):
     # return array of images
@@ -56,8 +72,9 @@ def loadImages(path):
     loadedImages = []
     for image in imagesList:
         #img = imread(os.path.join(path, image))
-        img = imread(path + image)
-        loadedImages.append(img)
+        #img = imread(path + image)
+        new_img = removeGreenScreen(path + image)
+        loadedImages.append(new_img)
         
     return loadedImages
 
@@ -85,6 +102,8 @@ def reshapeImgs(images):
     return newImages
 
 reshaped_imgs = reshapeImgs(imgs)
+
+plt.imshow(reshaped_imgs[0].reshape(200, 300), cmap="gray")
 
 #%% 
 # y array to define the different options
@@ -182,7 +201,7 @@ def show_img_pcs(index):
     
 #%%
 # Rock
-show_img_pcs(725)
+show_img_pcs(5)
 # Paper
 show_img_pcs(726)
 #Scissors
@@ -317,8 +336,8 @@ linearsvc_grid_b0, linearsvc_grid_m0 = FullReport(linearsvc_grid_tuned, X_imgs_t
 #%% KNeighbours model tuning parameters
 kn_tuning_parameters = {
     'algorithm': ('auto', 'ball_tree', 'kd_tree'),
-    'leaf_size': [10, 30, 50],
-    'n_neighbors': [2, 3, 5],
+    'leaf_size': [10, 20, 30, 50],
+    'n_neighbors': [1, 2, 3, 5, 7],
     'weights': ('uniform', 'distance'),
     'p': [1, 2]
 }
