@@ -2,7 +2,7 @@
 """
 Created on Tue Mar 10 15:04:48 2020
 
-@author: flole
+@author: Florent, Alexander and Jannik 
 """
 
 # This code and file is heavily inspired by
