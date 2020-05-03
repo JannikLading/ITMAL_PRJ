@@ -75,6 +75,7 @@ def loadImages(path):
         #img = imread(path + image)
         new_img = removeGreenScreen(path + image)
         loadedImages.append(new_img)
+        #loadedImages.append(img)
         
     return loadedImages
 
@@ -282,11 +283,11 @@ linearsvc_tuning_parameters = {
         "loss": ("hinge", "squared_hinge"),#"loss": ("hinge"),#
         "dual": [False, True],
         "tol": [1e-3, 1e-2, 1e-4],
-        "C": [0.2, 0.5, 1, 1.5, 2],
+        "C": [0.2, 0.5, 1 ],
         "multi_class": ("ovr", "crammer_singer"),
         "fit_intercept": [False, True],
-        "intercept_scaling": [0.2, 0.5, 1, 1.5, 2],
-        "max_iter": [500, 1000, 1500, 2000, 5000, 8000, 10000]
+        "intercept_scaling": [0.2, 0.5, 1, 1.5],
+        "max_iter": [500, 1000, 2000, 5000]
         }
 
 #%% LinearSearchSCV search
@@ -303,7 +304,7 @@ linearsvc_random_tuned = RandomizedSearchCV(
         iid=True,
         error_score=0.0 # needed to not get error from bad combinations
         )
-
+#%%
 linearsvc_grid_tuned = GridSearchCV(
         linearsvc_model,
         linearsvc_tuning_parameters,
@@ -321,7 +322,7 @@ linearsvc_grid_tuned.fit(X_imgs_training, y_training)
 
 linearsvc_t_1 = time()-start_grid
 
-
+#%%
 start_rand = time()
 
 linearsvc_random_tuned.fit(X_imgs_training, y_training)
@@ -330,7 +331,7 @@ linearsvc_t_rand = time()-start_rand
 
 #%% LinearSearchSCV model report
 linearsvc_rand_b0, linearsvc_rand_m0 = FullReport(linearsvc_random_tuned, X_imgs_test, y_test, linearsvc_t_rand)
-
+#%%
 linearsvc_grid_b0, linearsvc_grid_m0 = FullReport(linearsvc_grid_tuned, X_imgs_test, y_test, linearsvc_t_grid)
 
 #%% KNeighbours model tuning parameters
